@@ -1,0 +1,31 @@
+interface LivroBiblioteca {
+    titulo: string;
+    autor: string;
+    genero: string;
+    disponivel: boolean;
+}
+class BibliotecaGestao {
+    private livros: LivroBiblioteca[];
+
+    constructor() {
+        this.livros = [];
+    }
+
+    public adicionarLivro(livro: LivroBiblioteca): void {
+        this.livros.push(livro);
+    }
+
+    public filtrarPorGenero(genero: string): LivroBiblioteca[] {
+        return this.livros.filter(livro => livro.genero.toLowerCase() === genero.toLowerCase());
+    }
+
+    public buscarPorAutor(autor: string): LivroBiblioteca[] {
+        return this.livros.filter(livro => livro.autor.toLowerCase() === autor.toLowerCase());
+    }
+
+    public obterLivrosDisponiveisOrdenados(): LivroBiblioteca[] {
+        return this.livros
+            .filter(livro => livro.disponivel)
+            .sort((a, b) => a.titulo.localeCompare(b.titulo));
+    }
+}
