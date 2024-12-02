@@ -1,0 +1,15 @@
+class Agenda {
+    private compromissos: string[];
+
+    constructor() {
+        this.compromissos = [];
+    }
+
+    public adicionarCompromisso(compromisso: string): void {
+        this.compromissos.push(compromisso);
+    }
+
+    public listarCompromissos(): string[] {
+        return this.compromissos;
+    }
+}

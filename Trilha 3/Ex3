@@ -1,0 +1,55 @@
+abstract class Pagamento {
+    abstract processar(): void;
+}
+
+class PagamentoCartao extends Pagamento {
+    private numeroCartao: string;
+
+    constructor(numeroCartao: string) {
+        super();
+        this.numeroCartao = numeroCartao;
+    }
+
+    private validarNumeroCartao(): boolean {
+        return this.numeroCartao.length === 16;
+    }
+
+    public processar(): void {
+        if (this.validarNumeroCartao()) {
+            console.log(`Pagamento com cartão ${this.numeroCartao} processado com sucesso.`);
+        } else {
+            console.log(`Número do cartão ${this.numeroCartao} inválido.`);
+        }
+    }
+}
+
+class PagamentoBoleto extends Pagamento {
+    private codigoBoleto: string;
+
+    constructor() {
+        super();
+        this.codigoBoleto = this.gerarCodigoBoleto();
+    }
+
+    private gerarCodigoBoleto(): string {
+        return Math.random().toString(36).substring(2, 15).toUpperCase();
+    }
+
+    public processar(): void {
+        console.log(`Boleto gerado com código: ${this.codigoBoleto}. Pagamento pode ser realizado.`);
+    }
+}
+
+function processarPagamentos(pagamentos: Pagamento[]): void {
+    pagamentos.forEach(pagamento => {
+        pagamento.processar();
+    });
+}
+
+const pagamentos: Pagamento[] = [
+    new PagamentoCartao("1234567812345678"),
+    new PagamentoCartao("1234"),
+    new PagamentoBoleto()
+];
+
+processarPagamentos(pagamentos);

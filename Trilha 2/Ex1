@@ -1,0 +1,37 @@
+class ContaBancaria {
+    private titular: string;
+    private saldo: number;
+
+    constructor(titular: string, saldoInicial: number) {
+        this.titular = titular;
+        this.saldo = saldoInicial;
+    }
+
+    public depositar(valor: number): void {
+        if (valor > 0) {
+            this.saldo += valor;
+            console.log(`Depósito de R$ ${valor} realizado com sucesso. Saldo atual: R$ ${this.saldo}`);
+        } else {
+            console.log("O valor do depósito deve ser positivo.");
+        }
+    }
+
+    public sacar(valor: number): void {
+        if (valor > 0 && valor <= this.saldo) {
+            this.saldo -= valor;
+            console.log(`Saque de R$ ${valor} realizado com sucesso. Saldo atual: R$ ${this.saldo}`);
+        } else if (valor > this.saldo) {
+            console.log("Saldo insuficiente para realizar o saque.");
+        } else {
+            console.log("O valor do saque deve ser positivo.");
+        }
+    }
+
+    public obterSaldo(): number {
+        return this.saldo;
+    }
+
+    public obterTitular(): string {
+        return this.titular;
+    }
+}
