@@ -1,0 +1,28 @@
+abstract class TaskManager {
+    protected tasks: { task: string; type: string }[] = [];
+
+    abstract addTask(task: string): void;
+
+    public listTasks(): string[] {
+        return this.tasks.map(t => t.task);
+    }
+}
+class Project extends TaskManager {
+    public addTask(task: string): void {
+        if (!this.tasks.some(t => t.task === task && t.type === 'project')) {
+            this.tasks.push({ task, type: 'project' });
+        } else {
+            console.log(`Tarefa duplicada no projeto: "${task}" não foi adicionada.`);
+        }
+    }
+}
+
+class DailyTasks extends TaskManager {
+    public addTask(task: string): void {
+        if (!this.tasks.some(t => t.task === task && t.type === 'daily')) {
+            this.tasks.push({ task, type: 'daily' });
+        } else {
+            console.log(`Tarefa duplicada diária: "${task}" não foi adicionada.`);
+        }
+    }
+}

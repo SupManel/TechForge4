@@ -1,0 +1,56 @@
+abstract class Inventory {
+    protected items: Record<string, number> = {};
+
+    abstract addItem(item: string, quantity: number): void;
+
+    abstract removeItem(item: string): void;
+
+    public getInventory(): Record<string, number> {
+        return this.items;
+    }
+}
+
+class WarehouseInventory extends Inventory {
+    public addItem(item: string, quantity: number): void {
+        if (quantity <= 0) {
+            console.log("A quantidade deve ser maior que zero.");
+            return;
+        }
+
+        this.items[item] = (this.items[item] || 0) + quantity;
+    }
+
+    public removeItem(item: string): void {
+        if (this.items[item]) {
+            delete this.items[item];
+        } else {
+            console.log(`Item "${item}" não encontrado no inventário.`);
+        }
+    }
+}
+class StoreInventory extends Inventory {
+    private readonly MAX_QUANTITY: number = 10;
+
+    public addItem(item: string, quantity: number): void {
+        if (quantity <= 0) {
+            console.log("A quantidade deve ser maior que zero.");
+            return;
+        }
+        
+        const currentQuantity = this.items[item] || 0;
+        if (currentQuantity + quantity > this.MAX_QUANTITY) {
+            console.log(`Não é possível adicionar "${quantity}" unidades de "${item}". Limite máximo de ${this.MAX_QUANTITY} unidades por item.`);
+            return;
+        }
+        
+        this.items[item] = currentQuantity + quantity;
+    }
+
+    public removeItem(item: string): void {
+        if (this.items[item]) {
+            delete this.items[item];
+        } else {
+            console.log(`Item "${item}" não encontrado no inventário.`);
+        }
+    }
+}

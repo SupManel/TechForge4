@@ -1,0 +1,26 @@
+abstract class FavoriteManager {
+    protected favorites: string[] = [];
+
+    abstract addFavorite(item: string): void;
+
+    public getFavorites(): string[] {
+        return this.favorites;
+    }
+}
+
+class MoviesFavoriteManager extends FavoriteManager {
+    public addFavorite(item: string): void {
+        if (!this.favorites.includes(item)) {
+            this.favorites.push(item);
+            this.favorites.sort();
+        } else {
+            console.log(`O filme "${item}" já está na lista de favoritos.`);
+        }
+    }
+}
+
+class BooksFavoriteManager extends FavoriteManager {
+    public addFavorite(item: string): void {
+        this.favorites.unshift(item);
+    }
+}
