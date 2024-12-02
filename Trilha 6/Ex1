@@ -1,0 +1,116 @@
+class Order {
+    private items: { name: string; price: number; quantity: number }[] = [];
+    private totalPrice: number = 0;
+    private paymentStatus: string = "Pending";
+    private shippingStatus: string = "Not Shipped";
+
+    public addItem(name: string, price: number, quantity: number): void {
+        this.items.push({ name, price, quantity });
+        this.calculateTotalPrice();
+    }
+
+    private calculateTotalPrice(): void {
+        this.totalPrice = this.items.reduce((total, item) => total + item.price * item.quantity, 0);
+    }
+
+    public processPayment(): void {
+        if (this.totalPrice > 0) {
+            this.paymentStatus = "Paid";
+            console.log("Pagamento processado com sucesso.");
+        } else {
+            console.log("Não há itens no pedido para processar o pagamento.");
+        }
+    }
+
+    public updateShippingStatus(status: string): void {
+        this.shippingStatus = status;
+    }
+
+    public getOrderDetails(): object {
+        return {
+            items: this.items,
+            totalPrice: this.totalPrice,
+            paymentStatus: this.paymentStatus,
+            shippingStatus: this.shippingStatus,
+        };
+    }
+}
+class Cart {
+    private items: { name: string; price: number; quantity: number }[] = [];
+
+    public addItem(name: string, price: number, quantity: number): void {
+        this.items.push({ name, price, quantity });
+    }
+
+    public calculateTotalPrice(): number {
+        return this.items.reduce((total, item) => total + item.price * item.quantity, 0);
+    }
+
+    public getItems(): { name: string; price: number; quantity: number }[] {
+        return this.items;
+    }
+}
+
+class Payment {
+    private paymentStatus: string = "Pending";
+
+    public processPayment(totalPrice: number): void {
+        if (totalPrice > 0) {
+            this.paymentStatus = "Paid";
+            console.log("Pagamento processado com sucesso.");
+        } else {
+            console.log("Não há itens no pedido para processar o pagamento.");
+        }
+    }
+
+    public getPaymentStatus(): string {
+        return this.paymentStatus;
+    }
+}
+
+class Shipping {
+    private shippingStatus: string = "Not Shipped";
+
+    public updateShippingStatus(status: string): void {
+        this.shippingStatus = status;
+    }
+
+    public getShippingStatus(): string {
+        return this.shippingStatus;
+    }
+}
+
+class Order {
+    private cart: Cart;
+    private payment: Payment;
+    private shipping: Shipping;
+
+    constructor() {
+        this.cart = new Cart();
+        this.payment = new Payment();
+        this.shipping = new Shipping();
+    }
+
+    public addItem(name: string, price: number, quantity: number): void {
+        this.cart.addItem(name, price, quantity);
+    }
+
+    public processPayment(): void {
+        const totalPrice = this.cart.calculateTotalPrice();
+        this.payment.processPayment(totalPrice);
+    }
+
+    public updateShippingStatus(status: string): void {
+        this.shipping.updateShippingStatus(status);
+    }
+
+    public getOrderDetails(): object {
+        return {
+            items: this.cart.getItems(),
+            totalPrice: this.cart.calculateTotalPrice(),
+            paymentStatus: this.payment.getPaymentStatus(),
+            shippingStatus: this.shipping.getShippingStatus(),
+        };
+    }
+}
+

@@ -1,0 +1,42 @@
+class UserManager {
+    private users: { name: string; email: string }[] = [];
+
+    public createUser (name: string, email: string): void {
+        const newUser  = { name, email };
+        this.users.push(newUser );
+        this.sendEmailNotification(email, `Bem-vindo, ${name}!`);
+    }
+
+    private sendEmailNotification(email: string, message: string): void {
+        console.log(`Enviando email para ${email}: ${message}`);
+    }
+
+    public listUsers(): object[] {
+        return this.users;
+    }
+}
+
+class EmailNotification {
+    public send(email: string, message: string): void {
+        console.log(`Enviando email para ${email}: ${message}`);
+    }
+}
+
+class UserManager {
+    private users: { name: string; email: string }[] = [];
+    private emailNotification: EmailNotification;
+
+    constructor(emailNotification: EmailNotification) {
+        this.emailNotification = emailNotification;
+    }
+
+    public createUser (name: string, email: string): void {
+        const newUser  = { name, email };
+        this.users.push(newUser );
+        this.emailNotification.send(email, `Bem-vindo, ${name}!`);
+    }
+
+    public listUsers(): object[] {
+        return this.users;
+    }
+}
